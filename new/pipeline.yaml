@@ -12,7 +12,7 @@ metadata:
     ai.sap.com/version: "2.0"
 spec:
   imagePullSecrets:
-    - name: your-docker-registry-secret # Replace with your Docker registry secret name
+    - name: credstutorialrepo # Replace with your Docker registry secret name
   entrypoint: hello-workflow
   templates:
   - name: hello-workflow
@@ -22,7 +22,7 @@ spec:
 
   - name: hello-container
     container:
-      image: your-dockerhub-username/hello-world:latest # Replace with your Docker Hub image
+      image: shirke0706/hello-world:01 # Replace with your Docker Hub image
       command: ["/bin/sh", "-c"]
       args:
         - "echo 'Hello World from Workflow!'"
@@ -42,12 +42,12 @@ metadata:
     ai.sap.com/version: "2.0"
 spec:
   imagePullSecrets:
-    - name: your-docker-registry-secret # Replace with your Docker registry secret name
+    - name: credstutorialrepo # Replace with your Docker registry secret name
   entrypoint: serve-greeting
   templates:
   - name: serve-greeting
     container:
-      image: your-dockerhub-username/hello-world-serving:latest # Replace with your serving image
+      image: shirke0706/hello-world:01 # Replace with your serving image
       command: ["/bin/sh", "-c"]
       args:
         - |
