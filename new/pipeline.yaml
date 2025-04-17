@@ -1,0 +1,56 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: hello-world-pipeline # Unique ID for workflow
+  annotations:
+    scenarios.ai.sap.com/description: "Simple workflow to print Hello World"
+    scenarios.ai.sap.com/name: "Hello World Workflow"
+    executables.ai.sap.com/description: "Prints a greeting as a workflow step"
+    executables.ai.sap.com/name: "Hello World Printer"
+  labels:
+    scenarios.ai.sap.com/id: "hello-world-example"
+    ai.sap.com/version: "2.0"
+spec:
+  imagePullSecrets:
+    - name: your-docker-registry-secret # Replace with your Docker registry secret name
+  entrypoint: hello-workflow
+  templates:
+  - name: hello-workflow
+    steps:
+    - - name: hello-task
+        template: hello-container
+
+  - name: hello-container
+    container:
+      image: your-dockerhub-username/hello-world:latest # Replace with your Docker Hub image
+      command: ["/bin/sh", "-c"]
+      args:
+        - "echo 'Hello World from Workflow!'"
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: hello-world-serving # Unique ID for serving
+  annotations:
+    scenarios.ai.sap.com/description: "Simple serving executable to return a greeting"
+    scenarios.ai.sap.com/name: "Hello World Serving"
+    executables.ai.sap.com/description: "Returns a static greeting via a simple server"
+    executables.ai.sap.com/name: "Hello World Server"
+  labels:
+    scenarios.ai.sap.com/id: "hello-world-example"
+    ai.sap.com/version: "2.0"
+spec:
+  imagePullSecrets:
+    - name: your-docker-registry-secret # Replace with your Docker registry secret name
+  entrypoint: serve-greeting
+  templates:
+  - name: serve-greeting
+    container:
+      image: your-dockerhub-username/hello-world-serving:latest # Replace with your serving image
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          echo -e "HTTP/1.1 200 OK\nContent-Type: text/plain\n\nHello from the Serving Executable!" | nc -l -p 8080
+    ports:
+      - containerPort: 8080
