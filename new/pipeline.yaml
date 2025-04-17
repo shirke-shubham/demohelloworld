@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
-  name: hello-world-pipeline # Unique ID for workflow
+  name: hello-world-pipeline # Unique ID for workflow 
   annotations:
     scenarios.ai.sap.com/description: "Simple workflow to print Hello World"
     scenarios.ai.sap.com/name: "Hello World Workflow"
